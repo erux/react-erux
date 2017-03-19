@@ -1,0 +1,86 @@
+{
+  "name": "react-erux",
+  "version": "0.0.1-alpha.1",
+  "description": "React bindings for eRux",
+  "author": "Wolfgang Wedemeyer <wolf@okwolf.com>",
+  "license": "MIT",
+  "main": "dist/react-erux.js",
+  "jsnext:main": "src/index.js",
+  "files": [
+    "src",
+    "dist"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/erux/react-erux.git"
+  },
+  "homepage": "https://github.com/react-erux/react-erux",
+  "keywords": [
+    "react",
+    "redux",
+    "flux",
+    "erux",
+    "reducer"
+  ],
+  "dependencies": {
+    "erux": "=0.0.7-alpha.1"
+  },
+  "peerDependencies": {
+    "react-redux": "^5.0.0"
+  },
+  "devDependencies": {
+    "babel-cli": "=6.24.0",
+    "babel-core": "=6.24.0",
+    "babel-loader": "=6.4.1",
+    "babel-plugin-istanbul": "=4.0.0",
+    "babel-preset-es2015": "=6.24.0",
+    "babel-preset-react": "=6.23.0",
+    "babel-preset-stage-0": "=6.22.0",
+    "chai": "=3.5.0",
+    "coveralls": "=2.12.0",
+    "cross-env": "=3.2.4",
+    "eslint": "=3.18.0",
+    "eslint-plugin-prettier": "=2.0.1",
+    "eslint-plugin-react": "=6.10.0",
+    "mocha": "=3.2.0",
+    "nyc": "=10.1.2",
+    "prettier": "=0.22.0",
+    "react": "=15.4.2",
+    "react-dom": "=15.4.2",
+    "react-redux": "=5.0.3",
+    "redux": "=3.6.0",
+    "rimraf": "=2.6.1",
+    "sinon": "=2.0.0",
+    "webpack": "=2.2.1",
+    "webpack-dev-server": "=2.4.2"
+  },
+  "scripts": {
+    "clean": "rimraf coverage dist lib",
+    "lint": "eslint src test --fix",
+    "dev": "webpack-dev-server",
+    "prebuild": "npm install && npm run clean && npm run lint && npm test",
+    "build": "npm run build:commonjs && npm run build:umd && npm run build:umd:min",
+    "test": "cross-env NODE_ENV=test nyc mocha --compilers js:babel-register test/**.spec.js",
+    "test:watch": "npm test --- --watch --reporter=min",
+    "coveralls": "cat coverage/lcov.info | coveralls",
+    "build:commonjs": "cross-env BABEL_ENV=commonjs babel src --out-dir lib",
+    "build:umd": "cross-env BABEL_ENV=commonjs NODE_ENV=development webpack",
+    "build:umd:min": "cross-env BABEL_ENV=commonjs NODE_ENV=production webpack"
+  },
+  "nyc": {
+    "include": [
+      "src/**.js"
+    ],
+    "require": [
+      "babel-register"
+    ],
+    "sourceMap": false,
+    "instrument": false,
+    "tempDirectory": "coverage",
+    "report-dir": "coverage",
+    "reporter": [
+      "lcov",
+      "text-summary"
+    ]
+  }
+}
